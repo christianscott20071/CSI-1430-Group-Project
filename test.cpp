@@ -8,6 +8,6 @@ int main(int argc, char** argv) {
                 g.plotPixel(i, j, 255, 0, 0);
         g.update();
     }
-    return 0;
+    return 0; 
 }
 
