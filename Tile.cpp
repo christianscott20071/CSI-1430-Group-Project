@@ -10,6 +10,11 @@ class Tile{
         this->hasDot = hasDot;
         this->hasPowerup = hasPowerup;
     }
+    Tile(){
+        isWall = true;
+        hasDot = false;
+        hasPowerup = false;
+    }
     //We are going to return 0 for wall, 1 for dot, and 2 for powerup
     int getTileState(){
         int state = 0;

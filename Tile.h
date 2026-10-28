@@ -3,6 +3,8 @@
 
 #pragma once
 class Tile{
+    public:
+    Tile();
     Tile(bool, bool, bool);
     int getTileState();
 };
