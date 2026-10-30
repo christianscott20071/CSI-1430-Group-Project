@@ -9,6 +9,7 @@ class Entity{
         xPos = x;
         yPos = y;
     }
+    Entity(){};
     int getX(){
         return xPos;
     }
