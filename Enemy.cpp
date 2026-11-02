@@ -11,7 +11,7 @@ class Enemy : public Entity{
 
     Enemy();
     Enemy(int damage){
-        this->damage;
+        this->damage = damage;
     };
     void changeState(int state){
         //0 for normal 1 for scared
