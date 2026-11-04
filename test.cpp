@@ -3,8 +3,8 @@
 int main(int argc, char** argv) {
     SDL_Plotter g(700, 700);   // rows, cols
     while (!g.getQuit()) {
-        for (int i = 0; i < 14; i++)
-            for (int j = 0; j < 14; j++)
+        for (int i = 0; i < 35; i++)
+            for (int j = 0; j < 35; j++)
                 g.plotPixel(i, j, 255, 0, 0);
         g.update();
     }
