@@ -1,19 +1,14 @@
 #ifndef Tile_h
 #define Tile_h
 
-#pragma once
 class Tile{
+    private:
+    enum TileType{};
+    TileType type;
     public:
     Tile();
-    Tile(bool, bool, bool);
-    bool getIsWall();
+    Tile(TileType);
     int getTileState();
-
-private:
-    bool isWall;
-    bool hasDot;
-    bool hasPowerup;
-
 };
 
 #endif
