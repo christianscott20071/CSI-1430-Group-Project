@@ -7,5 +7,6 @@ class Entity{
     Entity();
     int getX();
     int getY();
+    void updatePosition(int, int);
 };
 #endif

@@ -16,4 +16,8 @@ class Entity{
     int getY(){
         return yPos;
     }
+    void updatePosition(int x, int y) {
+        xPos = x;
+        yPos = y;
+    }
 };
