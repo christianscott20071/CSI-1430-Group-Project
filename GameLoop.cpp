@@ -1,8 +1,11 @@
 
+
+#include <cmath>
 #include "SDL_Plotter.h"
 #include "Entity.h"
 #include "Maze.h"
 #include "Tile.h"
+using namespace std;
 
 int main (int argc, char ** argv) {
     Maze maze;
