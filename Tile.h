@@ -2,13 +2,22 @@
 #define Tile_h
 
 class Tile{
-    private:
-    enum TileType{};
-    TileType type;
+    
     public:
+    enum TileType{
+        PATH,
+        WALL,
+        ICE,
+        MUD,
+        TELEPORT,
+        START,
+        FINISH
+    };
     Tile();
     Tile(TileType);
     int getTileState();
+    private:
+    TileType type;
 };
 
 #endif

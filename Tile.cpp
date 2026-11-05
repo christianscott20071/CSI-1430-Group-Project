@@ -11,6 +11,7 @@
     };
     TileType type;
     Tile::Tile(){
+        
     }
     Tile::Tile(TileType type){
         this->type = type;
