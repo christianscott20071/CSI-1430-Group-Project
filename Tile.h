@@ -1,19 +1,23 @@
 #ifndef Tile_h
 #define Tile_h
 
-#pragma once
 class Tile{
+    
     public:
+    enum TileType{
+        PATH,
+        WALL,
+        ICE,
+        MUD,
+        TELEPORT,
+        START,
+        FINISH
+    };
     Tile();
-    Tile(int);
-    bool getIsWall();
-    int getTileType();
-
-private:
-    int type;
-
-
-
+    Tile(TileType);
+    int getTileState();
+    private:
+    TileType type;
 };
 
 #endif

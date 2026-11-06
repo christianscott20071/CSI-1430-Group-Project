@@ -52,10 +52,17 @@
         if (inFile.is_open()) {
             while(getline(inFile, line)) {
                 width = 0;
-
+                // 0=path 1=wall 2=speed up 3=slow down 4=teleport 5=start 6=finish
                 for(int i = 0; i < line.size(); i++) {
                     numTile = line[i];
-                    mazeMat[width][height] = Tile(numTile - '0');
+                    if(numTile == '0') mazeMat[width][height] = Tile(Tile::PATH);
+                    if(numTile == '1') mazeMat[width][height] = Tile(Tile::WALL);
+                    if(numTile == '2') mazeMat[width][height] = Tile(Tile::ICE);
+                    if(numTile == '3') mazeMat[width][height] = Tile(Tile::MUD);
+                    if(numTile == '4') mazeMat[width][height] = Tile(Tile::TELEPORT);
+                    if(numTile == '5') mazeMat[width][height] = Tile(Tile::START);
+                    if(numTile == '6') mazeMat[width][height] = Tile(Tile::FINISH);
+
                     if(numTile == '8') startX = width, startY = height;
                     if(numTile == '9') endX = width, endY = height;
                     width++;

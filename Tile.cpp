@@ -1,34 +1,31 @@
 #include "Tile.h"
 
-    Tile::Tile(int type){
-        this->type = type;
-/*
- * 0 = wall
- * 1 = floor
- * 2 = lava
- * 3 = speed
- * 4 = mud
- *
- *
- * 
- * 8 = start
- * 9 = end
- */
-    }
-    Tile::Tile(){
-        type = 0;
-
-    }
-    //We are going to return 0 for wall,
-    int Tile::getTileType(){
-        return type;
-    }
-    bool Tile::getIsWall() {
-        if (type == 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    enum TileType{
+        PATH,
+        WALL,
+        ICE,
+        MUD,
+        TELEPORT,
+        START,
+        FINISH
     };
+    TileType type;
+    Tile::Tile(){
+        
+    }
+    Tile::Tile(TileType type){
+        this->type = type;
+    }
+    //We are going to return 
+    // 0=path 1=wall 2=speed up 3=slow down 4=teleport 5=start 6=finish
+    int Tile::getTileState(){
+        int state = 0;
+        if(type == WALL) state = 1;
+        if(type == ICE) state = 2;
+        if(type == MUD) state = 3;
+        if(type == TELEPORT) state = 4;
+        if(type == START) state = 5;
+        if(type == FINISH) state = 6;
+        return state;
+    }
 
