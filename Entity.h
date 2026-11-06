@@ -3,6 +3,7 @@
 
 class Entity{
     public:
+    Entity();
     Entity(int, int);
     void startOver();
     int getX();

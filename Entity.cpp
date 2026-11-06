@@ -4,7 +4,9 @@
 
 
 
-
+    Entity::Entity(){
+        
+    }
     Entity::Entity(int x, int y) {
         xPos = x;
         yPos = y;
