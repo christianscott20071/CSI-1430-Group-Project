@@ -19,8 +19,6 @@ private:
     int endX = 0;
     int endY = 0;
 
-
-
     public:
     void setTile(Tile, int, int);
     int playerStartX();

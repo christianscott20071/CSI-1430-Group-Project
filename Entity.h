@@ -11,7 +11,6 @@ class Entity{
     void updatePosition(int, int);
     void updateStart(int, int);
 
-
 private:
     int xPos;
     int yPos;
