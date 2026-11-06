@@ -1,7 +1,7 @@
 
-
 #include <cmath>
 #include "SDL_Plotter.h"
+
 #include "Entity.h"
 #include "Maze.h"
 #include "Tile.h"
@@ -13,12 +13,14 @@ int main (int argc, char ** argv) {
     maze.setMaze(level);
     SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
     Entity player(maze.playerStartX(), maze.playerStartY());
-
-
+    bool islava = false;
+    bool level_complete = false;
     char key;
     int newX = 0;
     int newY = 0;
     bool skip = false;
+
+    cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
 
     while (!plot.getQuit()) {
         if (plot.kbhit()) {
@@ -46,16 +48,13 @@ int main (int argc, char ** argv) {
                     break;
             }
 
-
             newY += dy;
             newX += dx;
-            bool islava = false;
-            bool level_complete = false;
-
-
+            islava = false;
+            level_complete = false;
 
             if (!maze.getTile(newX, newY).getIsWall()) {
-                switch (maze.getTile(newX, newY).getTileType()) {
+                switch (maze.getTile(newX, newY).getTileState()) {
                     case 2:
                         //LAVA
                         islava = true;
@@ -78,10 +77,9 @@ int main (int argc, char ** argv) {
                         }
                         break;
                     case 5:
+                        //TELEPORT
                         break;
-                    case 6:
-                        break;
-                    case 9:
+                    case 7:
                         level_complete = true;
 
                         break;
@@ -129,3 +127,4 @@ int main (int argc, char ** argv) {
 
     return 0;
 }
+

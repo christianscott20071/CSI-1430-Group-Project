@@ -1,3 +1,6 @@
+/*
+
+
 #include "SDL_Plotter.h"
 //This is probably best for a square maze fitting the standard HD resultion
 int main(int argc, char** argv) {
@@ -10,3 +13,6 @@ int main(int argc, char** argv) {
     }
     return 0; 
 }
+
+
+*/

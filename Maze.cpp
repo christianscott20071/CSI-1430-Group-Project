@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include "Maze.h"
+using namespace std;
+#include <iostream>
 
     void Maze::setTile(Tile tile, int x, int y){
         mazeMat[x][y] = tile;
@@ -48,6 +50,7 @@
         }
 
         ifstream inFile(filename);
+        inFile.clear();
 
         if (inFile.is_open()) {
             while(getline(inFile, line)) {
@@ -55,6 +58,7 @@
                 // 0=path 1=wall 2=LAVA speed up 3=speed up 4=MUD 5=start 6=finish
                 for(int i = 0; i < line.size(); i++) {
                     numTile = line[i];
+                    if (numTile == ' ') {continue;}
                     if(numTile == '0') mazeMat[width][height] = Tile(Tile::PATH);
                     if(numTile == '1') mazeMat[width][height] = Tile(Tile::WALL);
                     if(numTile == '2') mazeMat[width][height] = Tile(Tile::LAVA);
@@ -69,6 +73,9 @@
                 }
                 height++;
             }
+        }
+        else {
+            cout << "Could not open " << filename << endl;
         }
     }
 

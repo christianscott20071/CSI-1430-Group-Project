@@ -7,7 +7,8 @@ class Tile{
     enum TileType{
         PATH,
         WALL,
-        ICE,
+        LAVA,
+        SPEEDUP,
         MUD,
         TELEPORT,
         START,
@@ -16,6 +17,7 @@ class Tile{
     Tile();
     Tile(TileType);
     int getTileState();
+    bool getIsWall();
     private:
     TileType type;
 };

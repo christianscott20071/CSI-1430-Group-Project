@@ -3,11 +3,16 @@
 #include "Entity.h"
 
 class Enemy : public Entity{
-    public:
+private:
 
+    bool isScared;
+    int damage;
+
+public:
     Enemy();
-    Enemy(int);
-    void changeState(int);
+    Enemy(int damage);
+    void changeState(int state);
     int getDamage();
 };
+
 #endif
