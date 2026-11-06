@@ -3,7 +3,8 @@
     enum TileType{
         PATH,
         WALL,
-        ICE,
+        LAVA,
+        SPEED,
         MUD,
         TELEPORT,
         START,
@@ -21,11 +22,21 @@
     int Tile::getTileState(){
         int state = 0;
         if(type == WALL) state = 1;
-        if(type == ICE) state = 2;
-        if(type == MUD) state = 3;
-        if(type == TELEPORT) state = 4;
-        if(type == START) state = 5;
-        if(type == FINISH) state = 6;
+        if(type == LAVA) state = 2;
+        if(type == SPEEDUP) state = 3;
+        if(type == MUD) state = 4;
+        if(type == TELEPORT) state = 5;
+        if(type == START) state = 6;
+        if(type == FINISH) state = 7;
         return state;
+    }
+
+    bool Tile::getIsWall() {
+        if (type == WALL) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 

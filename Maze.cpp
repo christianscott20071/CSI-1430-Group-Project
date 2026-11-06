@@ -52,19 +52,19 @@
         if (inFile.is_open()) {
             while(getline(inFile, line)) {
                 width = 0;
-                // 0=path 1=wall 2=speed up 3=slow down 4=teleport 5=start 6=finish
+                // 0=path 1=wall 2=LAVA speed up 3=speed up 4=MUD 5=start 6=finish
                 for(int i = 0; i < line.size(); i++) {
                     numTile = line[i];
                     if(numTile == '0') mazeMat[width][height] = Tile(Tile::PATH);
                     if(numTile == '1') mazeMat[width][height] = Tile(Tile::WALL);
-                    if(numTile == '2') mazeMat[width][height] = Tile(Tile::ICE);
-                    if(numTile == '3') mazeMat[width][height] = Tile(Tile::MUD);
-                    if(numTile == '4') mazeMat[width][height] = Tile(Tile::TELEPORT);
-                    if(numTile == '5') mazeMat[width][height] = Tile(Tile::START);
-                    if(numTile == '6') mazeMat[width][height] = Tile(Tile::FINISH);
+                    if(numTile == '2') mazeMat[width][height] = Tile(Tile::LAVA);
+                    if(numTile == '3') mazeMat[width][height] = Tile(Tile::SPEEDUP);
+                    if(numTile == '4') mazeMat[width][height] = Tile(Tile::MUD);
+                    if(numTile == '5') mazeMat[width][height] = Tile(Tile::TELEPORT);
+                    if(numTile == '6') mazeMat[width][height] = Tile(Tile::START), startX = width, startY = height;
+                    if(numTile == '7') mazeMat[width][height] = Tile(Tile::FINISH),  endX = width, endY = height;
 
-                    if(numTile == '8') startX = width, startY = height;
-                    if(numTile == '9') endX = width, endY = height;
+
                     width++;
                 }
                 height++;
