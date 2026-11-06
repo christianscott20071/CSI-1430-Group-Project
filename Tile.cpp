@@ -4,7 +4,7 @@
         PATH,
         WALL,
         LAVA,
-        SPEED,
+        SPEEDUP,
         MUD,
         TELEPORT,
         START,

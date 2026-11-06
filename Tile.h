@@ -16,6 +16,7 @@ class Tile{
     Tile();
     Tile(TileType);
     int getTileState();
+    bool getIsWall();
     private:
     TileType type;
 };

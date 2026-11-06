@@ -55,7 +55,7 @@ int main (int argc, char ** argv) {
 
 
             if (!maze.getTile(newX, newY).getIsWall()) {
-                switch (maze.getTile(newX, newY).getTileType()) {
+                switch (maze.getTile(newX, newY).getTileState()) {
                     case 2:
                         //LAVA
                         islava = true;
