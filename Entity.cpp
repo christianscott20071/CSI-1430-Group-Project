@@ -4,13 +4,17 @@
 
 
 
-    Entity::Entity(int x, int y){
+
+    Entity::Entity(int x, int y) {
         xPos = x;
         yPos = y;
         startX = x;
         startY = y;
     }
-    Entity::Entity(){};
+    void Entity::updateStart(int newStartX, int newStartY) {
+        startX = newStartX;
+        startY = newStartY;
+    }
 
     int Entity::getX(){
         return xPos;
@@ -27,6 +31,7 @@
         xPos = startX;
         yPos = startY;
 }
+
 
 
 

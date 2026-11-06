@@ -3,16 +3,19 @@
 
 class Entity{
     public:
-    Entity(int x, int y);
-    Entity();
+    Entity(int, int);
     void startOver();
     int getX();
     int getY();
     void updatePosition(int, int);
+    void updateStart(int, int);
+
 
 private:
-    int xPos, yPos;
-    int startX, startY;
+    int xPos;
+    int yPos;
+    int startX;
+    int startY;
 
 };
 #endif

@@ -5,14 +5,14 @@
 class Tile{
     public:
     Tile();
-    Tile(bool, bool, bool);
+    Tile(int);
     bool getIsWall();
-    int getTileState();
+    int getTileType();
 
 private:
-    bool isWall;
-    bool hasDot;
-    bool hasPowerup;
+    int type;
+
+
 
 };
 
