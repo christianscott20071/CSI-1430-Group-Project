@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # macOS Homebrew support

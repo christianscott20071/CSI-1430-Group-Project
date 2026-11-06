@@ -1,8 +1,4 @@
-
-
 #include "Enemy.h"
-
-
 
     Enemy::Enemy() : Entity(0, 0) {}
 
