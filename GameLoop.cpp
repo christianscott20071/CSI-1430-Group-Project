@@ -13,6 +13,7 @@ int main (int argc, char ** argv) {
     maze.setMaze(level);
     SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
     Player player(maze.playerStartX(), maze.playerStartY());
+
     bool islava = false;
     bool level_complete = false;
     char key;
@@ -129,6 +130,9 @@ int main (int argc, char ** argv) {
 }
 
 void updateEnemy(){
+    //so what we have to do is get the player position, then move forward, left, or right toward the player
+    //but we have to check to make sure that we arent running into a wall.
+    //SO HOW WE DO THIS IS WE HAVE TO CHECK EACH DIRECTION in order of closeness to the player
 
 }
 

@@ -81,5 +81,6 @@ using namespace std;
 
 int Maze::playerStartX() {return startX;}
 int Maze::playerStartY() {return startY;}
+
 int Maze::playerEndX() {return endX;}
 int Maze::playerEndY() {return endY;}
