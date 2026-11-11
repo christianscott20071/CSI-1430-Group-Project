@@ -7,7 +7,14 @@ class Player : public Entity{
 
     public:
 
-    Player();
+    Player(){
+
+    }
+    Player(int x, int y){
+        xPos = x;
+        yPos = y;
+
+    }
     int getHealth(){
         return health;
     }

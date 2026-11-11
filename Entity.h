@@ -11,7 +11,7 @@ class Entity{
     void updatePosition(int, int);
     void updateStart(int, int);
 
-private:
+protected:
     int xPos;
     int yPos;
     int startX;

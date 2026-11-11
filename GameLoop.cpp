@@ -2,7 +2,7 @@
 #include <cmath>
 #include "SDL_Plotter.h"
 
-#include "Entity.h"
+#include "Player.h"
 #include "Maze.h"
 #include "Tile.h"
 using namespace std;
@@ -12,7 +12,7 @@ int main (int argc, char ** argv) {
     Maze maze;
     maze.setMaze(level);
     SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
-    Entity player(maze.playerStartX(), maze.playerStartY());
+    Player player(maze.playerStartX(), maze.playerStartY());
     bool islava = false;
     bool level_complete = false;
     char key;
@@ -126,5 +126,9 @@ int main (int argc, char ** argv) {
     }
 
     return 0;
+}
+
+void updateEnemy(){
+
 }
 
