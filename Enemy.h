@@ -7,12 +7,14 @@ private:
 
     bool isScared;
     int damage;
-
+    char direction;
 public:
     Enemy();
-    Enemy(int damage);
+    Enemy(int);
+    Enemy(int, int);
     void changeState(int state);
     int getDamage();
+    char getDirection();
 };
 
 #endif

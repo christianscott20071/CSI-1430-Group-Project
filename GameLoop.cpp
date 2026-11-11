@@ -1,7 +1,8 @@
 
 #include <cmath>
+#include <climits>
 #include "SDL_Plotter.h"
-
+#include "Enemy.h"
 #include "Player.h"
 #include "Maze.h"
 #include "Tile.h"
@@ -13,7 +14,7 @@ int main (int argc, char ** argv) {
     maze.setMaze(level);
     SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
     Player player(maze.playerStartX(), maze.playerStartY());
-
+    Enemy enemy(maze.playerStartX(), maze.playerStartY()); //Enemy start pos will be at the start of the maze, enemy will spawn in like a second or two after player. 
     bool islava = false;
     bool level_complete = false;
     char key;
@@ -129,10 +130,53 @@ int main (int argc, char ** argv) {
     return 0;
 }
 
-void updateEnemy(){
-    //so what we have to do is get the player position, then move forward, left, or right toward the player
-    //but we have to check to make sure that we arent running into a wall.
-    //SO HOW WE DO THIS IS WE HAVE TO CHECK EACH DIRECTION in order of closeness to the player
 
+
+struct MoveOption{
+    int x;
+    int y;
+};
+
+void updateEnemy(Enemy& enemy, Player player, Maze maze){
+    int distance = INT_MAX;
+    abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
+    MoveOption bestOption;
+    vector<MoveOption> options;
+    //okay, so lets check which spots by the enemy are even open or valid options, then we pick between those tiles for which direction we want to go
+
+    //check north
+    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+    && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
+     && enemy.getDirection()!='s'){
+        options.push_back({enemy.getX(), enemy.getY()+1});
+    }
+    //check east
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'w'){
+        options.push_back({enemy.getX()+1, enemy.getY()});
+    }
+    //check south
+    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
+      && enemy.getDirection()!='n'){
+        options.push_back({enemy.getX(), enemy.getY()-1});
+    }
+    //check west
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'e'){
+        options.push_back({enemy.getX()-1, enemy.getY()});
+    }
+
+    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
+    for(int i = 0; i < options.size(); i++){
+        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
+            bestOption = options[i];
+            distance = abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
+        }
+    }
+    //now we update position
+    enemy.updatePosition(bestOption.x, bestOption.y);
 }
 
