@@ -139,10 +139,8 @@ struct MoveOption{
 
 void updateEnemy(Enemy& enemy, Player player, Maze maze){
     int distance = INT_MAX;
-    abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
     MoveOption bestOption;
     vector<MoveOption> options;
-    //okay, so lets check which spots by the enemy are even open or valid options, then we pick between those tiles for which direction we want to go
 
     //check north
     if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())

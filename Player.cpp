@@ -1,25 +1,16 @@
-#include "Entity.h";
-
-class Player : public Entity{
-    private:
-
-    int health = 10;
-
-    public:
-
-    Player(){
+#include "Player.h"
+    Player::Player(){
 
     }
-    Player(int x, int y){
+    Player::Player(int x, int y){
         xPos = x;
         yPos = y;
 
     }
-    int getHealth(){
+    int Player::getHealth(){
         return health;
     }
-    int damagePlayer(int dmg){
+    void Player::damagePlayer(int dmg){
         health -= dmg;
     }
     
-};

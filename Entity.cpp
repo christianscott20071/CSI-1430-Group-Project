@@ -28,7 +28,7 @@
     void Entity::startOver() {
         xPos = startX;
         yPos = startY;
-}
+    }
 
 
 

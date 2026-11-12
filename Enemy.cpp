@@ -18,10 +18,10 @@
     int Enemy::getDamage(){
         return damage;
     }
-    void setDirection(char dir){
+    void Enemy::setDirection(char dir){
         direction = dir;
     }
-    char getDirection(){
+    char Enemy::getDirection(){
         return direction;
     }
 

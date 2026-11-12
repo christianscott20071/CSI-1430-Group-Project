@@ -14,6 +14,7 @@ public:
     Enemy(int, int);
     void changeState(int state);
     int getDamage();
+    void setDirection(char);
     char getDirection();
 };
 
