@@ -1,5 +1,6 @@
 #include <cmath>
 #include <climits>
+#include <fstream>
 #include "SDL_Plotter.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -186,3 +187,27 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     
 }
 
+void drawImage(SDL_Plotter p, string filename, int startX, int startY){
+    //so what we are going to do, is open the file
+    //go pixel by pixel and store the rgb values
+    //for each pixel, we are going to drawPixel(rgb vals, pos)
+    ifstream inFile;
+    string line;
+    int wid, height;
+    int currX = startX;
+    int currY = startY;
+    int r,g,b;
+    inFile.open(filename);
+    getline(inFile, line);
+    inFile >> wid >> height;
+    for(int i = 0; i < wid; i++){
+        for(int j = 0; j < height; j++){
+            inFile >> r >> g >> b;
+            p.plotPixel(currX, currY, r, g, b);
+            currX++;
+        }
+        currY++;
+    }
+
+
+}
