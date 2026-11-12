@@ -1,4 +1,3 @@
-
 #include <cmath>
 #include <climits>
 #include "SDL_Plotter.h"
@@ -174,7 +173,16 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
             distance = abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
         }
     }
-    //now we update position
+    //now we set direction
+    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
+    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
+    if(bestOption.y > enemy.getY()) enemy.setDirection('n');
+    if(bestOption.x < enemy.getY()) enemy.setDirection('s');
+
+    //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
+
+   
+    
 }
 
