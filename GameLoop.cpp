@@ -177,7 +177,7 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     if(bestOption.x > enemy.getX()) enemy.setDirection('e');
     if(bestOption.x < enemy.getX()) enemy.setDirection('w');
     if(bestOption.y > enemy.getY()) enemy.setDirection('n');
-    if(bestOption.x < enemy.getY()) enemy.setDirection('s');
+    if(bestOption.y < enemy.getY()) enemy.setDirection('s');
 
     //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
