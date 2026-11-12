@@ -130,8 +130,6 @@ int main (int argc, char ** argv) {
     return 0;
 }
 
-
-
 struct MoveOption{
     int x;
     int y;
@@ -187,6 +185,7 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     
 }
 
+//we need a ppm file
 void drawImage(SDL_Plotter p, string filename, int startX, int startY){
     //so what we are going to do, is open the file
     //go pixel by pixel and store the rgb values
@@ -208,6 +207,4 @@ void drawImage(SDL_Plotter p, string filename, int startX, int startY){
         }
         currY++;
     }
-
-
 }
