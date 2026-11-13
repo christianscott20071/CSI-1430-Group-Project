@@ -123,7 +123,7 @@ int main (int argc, char ** argv) {
 
         while(!plot.getQuit() && onTitleScreen){
             if(plot.kbhit()) {
-                if(key = SDLK_RETURN) onTitleScreen = false;
+                onTitleScreen = false;
             }
             plot.Sleep(30);
         }
