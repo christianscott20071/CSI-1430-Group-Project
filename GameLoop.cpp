@@ -8,7 +8,99 @@
 #include "Tile.h"
 using namespace std;
 
+
+struct MoveOption{
+    int x;
+    int y;
+};
+
+void updateEnemy(Enemy& enemy, Player player, Maze maze){
+    int distance = INT_MAX;
+    MoveOption bestOption;
+    vector<MoveOption> options;
+
+    //check north
+    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+    && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
+     && enemy.getDirection()!='s'){
+        options.push_back({enemy.getX(), enemy.getY()+1});
+    }
+    //check east
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'w'){
+        options.push_back({enemy.getX()+1, enemy.getY()});
+    }
+    //check south
+    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
+      && enemy.getDirection()!='n'){
+        options.push_back({enemy.getX(), enemy.getY()-1});
+    }
+    //check west
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'e'){
+        options.push_back({enemy.getX()-1, enemy.getY()});
+    }
+
+    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
+    for(int i = 0; i < options.size(); i++){
+        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
+            bestOption = options[i];
+            distance = abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
+        }
+    }
+    //now we set direction
+    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
+    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
+    if(bestOption.y > enemy.getY()) enemy.setDirection('n');
+    if(bestOption.y < enemy.getY()) enemy.setDirection('s');
+
+    //aaaanndddd update position
+    enemy.updatePosition(bestOption.x, bestOption.y);
+
+   
+    
+}
+
+//we need a ppm file
+void drawImage(SDL_Plotter& p, string filename, int startX, int startY){
+    string filepath = "images/" + filename;
+    ifstream inFile;
+    string line;
+    int wid, height;
+    int currX = startX;
+    int currY = startY;
+    int r,g,b;
+    int maxVal;
+    inFile.open(filepath);
+    if(!inFile.is_open()){
+        cout << "File reading error" << filename;
+        return;
+    }
+    getline(inFile, line);
+    inFile >> wid >> height;
+    inFile >> maxVal;
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < wid; j++){
+            inFile >> r >> g >> b;
+            p.plotPixel(currX, currY, r, g, b);
+            currX++;
+        }
+        currY++;
+        currX = startX;
+    }
+}
+
+
+
+
+
+
+
 int main (int argc, char ** argv) {
+    bool onTitleScreen = true;
     int level = 1;
     Maze maze;
     maze.setMaze(level);
@@ -23,6 +115,18 @@ int main (int argc, char ** argv) {
     bool skip = false;
 
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
+
+    //Title screen
+    
+        drawImage(plot, "candyChase.PPM", 0,0);
+        plot.update();
+
+        while(!plot.getQuit() && onTitleScreen){
+            if(plot.kbhit()) {
+                if(key = SDLK_RETURN) onTitleScreen = false;
+            }
+            plot.Sleep(30);
+        }
 
     while (!plot.getQuit()) {
         if (plot.kbhit()) {
@@ -120,7 +224,7 @@ int main (int argc, char ** argv) {
 
         // drawMaze(plot, maze);
         // drawPlayer(plot, player);
-
+        //updateEnemy(enemy, player, maze);
         plot.update();
 
         plot.Sleep(30);
@@ -128,83 +232,4 @@ int main (int argc, char ** argv) {
     }
 
     return 0;
-}
-
-struct MoveOption{
-    int x;
-    int y;
-};
-
-void updateEnemy(Enemy& enemy, Player player, Maze maze){
-    int distance = INT_MAX;
-    MoveOption bestOption;
-    vector<MoveOption> options;
-
-    //check north
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
-    && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
-     && enemy.getDirection()!='s'){
-        options.push_back({enemy.getX(), enemy.getY()+1});
-    }
-    //check east
-    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
-     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'w'){
-        options.push_back({enemy.getX()+1, enemy.getY()});
-    }
-    //check south
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
-     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
-      && enemy.getDirection()!='n'){
-        options.push_back({enemy.getX(), enemy.getY()-1});
-    }
-    //check west
-    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
-     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'e'){
-        options.push_back({enemy.getX()-1, enemy.getY()});
-    }
-
-    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
-    for(int i = 0; i < options.size(); i++){
-        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
-            bestOption = options[i];
-            distance = abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
-        }
-    }
-    //now we set direction
-    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
-    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
-    if(bestOption.y > enemy.getY()) enemy.setDirection('n');
-    if(bestOption.y < enemy.getY()) enemy.setDirection('s');
-
-    //aaaanndddd update position
-    enemy.updatePosition(bestOption.x, bestOption.y);
-
-   
-    
-}
-
-//we need a ppm file
-void drawImage(SDL_Plotter p, string filename, int startX, int startY){
-    ifstream inFile;
-    string line;
-    int wid, height;
-    int currX = startX;
-    int currY = startY;
-    int r,g,b;
-    int maxVal;
-    inFile.open(filename);
-    getline(inFile, line);
-    inFile >> wid >> height;
-    inFile >> maxVal;
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < wid; j++){
-            inFile >> r >> g >> b;
-            p.plotPixel(currX, currY, r, g, b);
-            currX++;
-        }
-        currY++;
-        currX = startX;
-    }
 }
