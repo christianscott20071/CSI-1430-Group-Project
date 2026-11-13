@@ -118,7 +118,7 @@ int main (int argc, char ** argv) {
 
     //Title screen
     
-        drawImage(plot, "candyChase.PPM", 0,0);
+        drawImage(plot, "candyTitleS.PPM", 0,0);
         plot.update();
 
         while(!plot.getQuit() && onTitleScreen){
