@@ -93,6 +93,38 @@ void drawImage(SDL_Plotter& p, string filename, int startX, int startY){
     }
 }
 
+void drawMaze(SDL_Plotter& p, Maze m){
+    int xTracker = 0, yTracker = 0;
+    for(int i = 0; i < m.getHeight(); i++){
+        for (int j = 0; j < m.getWidth(); j++){
+            if(m.getTile(i,j).getTileState() == 1){
+                //drawImage(p, path_to_wall_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 2){
+                //drawImage(p, path_to_lava_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 3){
+                //drawImage(p, path_to_speedUp_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 4){
+                //drawImage(p, path_to_mud_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 5){
+                //drawImage(p, path_to_teleport_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 6){
+                //drawImage(p, path_to_start_texture, xTracker, yTracker);
+            }
+            if(m.getTile(i,j).getTileState() == 7){
+                //drawImage(p, path_to_end_texture, xTracker, yTracker);
+            }
+        xTracker+=30;
+        }
+        yTracker+=30;
+        xTracker = 0;
+    }
+
+}
 
 
 

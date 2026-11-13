@@ -27,6 +27,7 @@ using namespace std;
 
     Maze::Maze(){
         //we will construct a maze obj and read a file into it.
+        //nvm
     }
 
     Tile Maze::getTile(int xPos, int yPos){
