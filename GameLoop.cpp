@@ -116,7 +116,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 //drawImage(p, path_to_start_texture, xTracker, yTracker);
             }
             if(m.getTile(i,j).getTileState() == 7){
-                //drawImage(p, path_to_end_texture, xTracker, yTracker);
+                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
             }
         xTracker+=30;
         }
@@ -125,7 +125,11 @@ void drawMaze(SDL_Plotter& p, Maze m){
     }
 
 }
-
+void drawPlayer(SDL_Plotter& p, Player& play ){
+    int x = play.getX() * 30;
+    int y = play.getY() * 30;
+    //drawImage(p, "path_to_player_texture", x,y);
+}
 
 
 
@@ -254,7 +258,7 @@ int main (int argc, char ** argv) {
 
         plot.clear();
 
-        // drawMaze(plot, maze);
+        drawMaze(plot, maze);
         // drawPlayer(plot, player);
         //updateEnemy(enemy, player, maze);
         plot.update();
