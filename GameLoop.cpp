@@ -161,7 +161,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
 void drawPlayer(SDL_Plotter& p, Player& play ){
     int x = play.getX() * 30;
     int y = play.getY() * 30;
-    //drawImage(p, "path_to_player_texture", x,y);
+    drawImage(p, "playerTemp.ppm", x,y);
 }
 void drawEnemy(SDL_Plotter& p, Enemy& en){
     int x = en.getX()*30;
@@ -295,7 +295,7 @@ int main (int argc, char ** argv) {
         plot.clear();
 
         drawMaze(plot, maze);
-        // drawPlayer(plot, player);
+        drawPlayer(plot, player);
         updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         plot.update();
