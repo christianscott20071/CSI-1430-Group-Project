@@ -104,10 +104,10 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 //drawImage(p, path_to_lava_texture, xTracker, yTracker);
             }
             if(m.getTile(i,j).getTileState() == 3){
-                //drawImage(p, path_to_speedUp_texture, xTracker, yTracker);
+                drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
             }
             if(m.getTile(i,j).getTileState() == 4){
-                //drawImage(p, path_to_mud_texture, xTracker, yTracker);
+                drawImage(p, "muddySwamp.ppm", xTracker, yTracker);
             }
             if(m.getTile(i,j).getTileState() == 5){
                 //drawImage(p, path_to_teleport_texture, xTracker, yTracker);
@@ -130,8 +130,11 @@ void drawPlayer(SDL_Plotter& p, Player& play ){
     int y = play.getY() * 30;
     //drawImage(p, "path_to_player_texture", x,y);
 }
-
-
+void drawEnemy(SDL_Plotter& p, Enemy& en){
+    int x = en.getX()*30;
+    int y = en.getY()*30;
+    drawImage(p, "kingcandy.ppm", x, y);
+}
 
 
 
@@ -261,9 +264,10 @@ int main (int argc, char ** argv) {
         drawMaze(plot, maze);
         // drawPlayer(plot, player);
         //updateEnemy(enemy, player, maze);
+        drawEnemy(plot, enemy);
         plot.update();
 
-        plot.Sleep(30);
+        plot.Sleep(300);
 
     }
 
