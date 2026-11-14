@@ -57,6 +57,39 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     if(bestOption.y < enemy.getY()) enemy.setDirection('n');
     if(bestOption.y > enemy.getY()) enemy.setDirection('s');
 
+    //check if it is stuck
+    if(options.empty()){
+        //leave out direction restricting.
+            if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+        && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX(), enemy.getY()-1});
+        }
+        //check east
+        if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+        && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX()+1, enemy.getY()});
+        }
+        //check south
+        if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+        && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX(), enemy.getY()+1});
+        }
+        //check west
+        if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
+        && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX()-1, enemy.getY()});
+        }
+    }
+
+    if(!options.empty()){
+        for(int i = 0; i < options.size(); i++){
+        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
+            bestOption = options[i];
+            distance = abs((options[i].x - player.getX())) + abs(options[i].y-player.getY());
+        }
+    }
+    }
+
     //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
 
@@ -267,7 +300,7 @@ int main (int argc, char ** argv) {
         drawEnemy(plot, enemy);
         plot.update();
 
-        plot.Sleep(1000);
+        plot.Sleep(200);
 
     }
 
