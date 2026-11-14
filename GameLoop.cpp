@@ -299,6 +299,9 @@ int main (int argc, char ** argv) {
         drawPlayer(plot, player);
         updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
+        if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
+            player.startOver();
+        }
         plot.update();
 
         plot.Sleep(100);
