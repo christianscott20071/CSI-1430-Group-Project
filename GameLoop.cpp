@@ -161,6 +161,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
 void drawPlayer(SDL_Plotter& p, Player& play ){
     int x = play.getX() * 30;
     int y = play.getY() * 30;
+    //Add logic to change texture based on player direction
     drawImage(p, "playerTemp.ppm", x,y);
 }
 void drawEnemy(SDL_Plotter& p, Enemy& en){
