@@ -20,25 +20,25 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     vector<MoveOption> options;
 
     //check north
-    if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+    if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight()) && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
      && enemy.getDirection()!='s'){
         options.push_back({enemy.getX(), enemy.getY()-1});
     }
     //check east
-    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
      && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
       && enemy.getDirection()!= 'w'){
         options.push_back({enemy.getX()+1, enemy.getY()});
     }
     //check south
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+    if(enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight() && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
      && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
       && enemy.getDirection()!='n'){
         options.push_back({enemy.getX(), enemy.getY()+1});
     }
     //check west
-    if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
+    if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
      && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
       && enemy.getDirection()!= 'e'){
         options.push_back({enemy.getX()-1, enemy.getY()});

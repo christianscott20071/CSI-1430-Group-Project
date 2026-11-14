@@ -8,4 +8,5 @@ class Player : public Entity{
     Player(int, int);
     int getHealth();
     void damagePlayer(int);
+    void startOver();
 };

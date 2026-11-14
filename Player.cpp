@@ -13,4 +13,8 @@
     void Player::damagePlayer(int dmg){
         health -= dmg;
     }
+    void Player::startOver(){
+        xPos = 1;
+        yPos = 1;
+    }
     
