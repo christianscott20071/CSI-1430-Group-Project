@@ -20,10 +20,10 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     vector<MoveOption> options;
 
     //check north
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
-    && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
+    if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+    && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
      && enemy.getDirection()!='s'){
-        options.push_back({enemy.getX(), enemy.getY()+1});
+        options.push_back({enemy.getX(), enemy.getY()-1});
     }
     //check east
     if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
@@ -32,10 +32,10 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
         options.push_back({enemy.getX()+1, enemy.getY()});
     }
     //check south
-    if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
-     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
+    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+     && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
       && enemy.getDirection()!='n'){
-        options.push_back({enemy.getX(), enemy.getY()-1});
+        options.push_back({enemy.getX(), enemy.getY()+1});
     }
     //check west
     if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
@@ -54,8 +54,8 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     //now we set direction
     if(bestOption.x > enemy.getX()) enemy.setDirection('e');
     if(bestOption.x < enemy.getX()) enemy.setDirection('w');
-    if(bestOption.y > enemy.getY()) enemy.setDirection('n');
-    if(bestOption.y < enemy.getY()) enemy.setDirection('s');
+    if(bestOption.y < enemy.getY()) enemy.setDirection('n');
+    if(bestOption.y > enemy.getY()) enemy.setDirection('s');
 
     //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
@@ -97,25 +97,25 @@ void drawMaze(SDL_Plotter& p, Maze m){
     int xTracker = 0, yTracker = 0;
     for(int i = 0; i < m.getHeight(); i++){
         for (int j = 0; j < m.getWidth(); j++){
-            if(m.getTile(i,j).getTileState() == 1){
+            if(m.getTile(j,i).getTileState() == 1){
                 drawImage(p, "brickWall.ppm", xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 2){
+            if(m.getTile(j,i).getTileState() == 2){
                 //drawImage(p, path_to_lava_texture, xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 3){
+            if(m.getTile(j,i).getTileState() == 3){
                 drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 4){
+            if(m.getTile(j,i).getTileState() == 4){
                 drawImage(p, "muddySwamp.ppm", xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 5){
+            if(m.getTile(j,i).getTileState() == 5){
                 //drawImage(p, path_to_teleport_texture, xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 6){
+            if(m.getTile(j,i).getTileState() == 6){
                 //drawImage(p, path_to_start_texture, xTracker, yTracker);
             }
-            if(m.getTile(i,j).getTileState() == 7){
+            if(m.getTile(j,i).getTileState() == 7){
                 //drawImage(p, path_to_finish_texture, xTracker, yTracker);
             }
         xTracker+=30;
@@ -263,11 +263,11 @@ int main (int argc, char ** argv) {
 
         drawMaze(plot, maze);
         // drawPlayer(plot, player);
-        //updateEnemy(enemy, player, maze);
+        updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         plot.update();
 
-        plot.Sleep(300);
+        plot.Sleep(1000);
 
     }
 
