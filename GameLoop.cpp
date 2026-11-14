@@ -98,7 +98,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
     for(int i = 0; i < m.getHeight(); i++){
         for (int j = 0; j < m.getWidth(); j++){
             if(m.getTile(i,j).getTileState() == 1){
-                //drawImage(p, path_to_wall_texture, xTracker, yTracker);
+                drawImage(p, "brickWall.ppm", xTracker, yTracker);
             }
             if(m.getTile(i,j).getTileState() == 2){
                 //drawImage(p, path_to_lava_texture, xTracker, yTracker);
