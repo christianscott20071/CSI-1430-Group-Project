@@ -301,7 +301,7 @@ int main (int argc, char ** argv) {
         drawEnemy(plot, enemy);
         plot.update();
 
-        plot.Sleep(200);
+        plot.Sleep(100);
 
     }
 
