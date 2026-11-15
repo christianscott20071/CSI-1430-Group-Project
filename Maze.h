@@ -18,6 +18,19 @@ private:
     int startY = 0;
     int endX = 0;
     int endY = 0;
+    int tele1X = 0;
+    int tele1Y = 0;
+    int tele2X = 0;
+    int tele2Y = 0;
+    int tele3X = 0;
+    int tele3Y = 0;
+    int tele4X = 0;
+    int tele4Y = 0;
+    int keyX = 0;
+    int keyY = 0;
+    int doorX = 0;
+    int doorY = 0;
+
 
     public:
     void setTile(Tile, int, int);
@@ -25,6 +38,18 @@ private:
     int playerStartY();
     int playerEndX();
     int playerEndY();
+    int getTele1X();
+    int getTele1Y();
+    int getTele2X();
+    int getTele2Y();
+    int getTele3X();
+    int getTele3Y();
+    int getTele4X();
+    int getTele4Y();
+    int getKeyX();
+    int getKeyY();
+    int getDoorX();
+    int getDoorY();
     void clearMazeMat();
     int getTileSize();
     int getHeight();
@@ -32,6 +57,8 @@ private:
     Maze();
     Tile getTile(int, int);
     void setMaze(int);
+    void toLava(int, int);
+    void toWall(int, int);
 
 };
 #endif

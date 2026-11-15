@@ -10,7 +10,14 @@ class Tile{
         LAVA,
         SPEEDUP,
         MUD,
-        TELEPORT,
+        TELEPORT_1,
+        TELEPORT_2,
+        TELEPORT_3,
+        TELEPORT_4,
+        HIDDEN_LAVA,
+        HIDDEN_WALL,
+        KEY,
+        DOOR,
         START,
         FINISH
     };

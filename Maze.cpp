@@ -64,9 +64,16 @@ using namespace std;
                     if(numTile == '2') mazeMat[width][height] = Tile(Tile::LAVA);
                     if(numTile == '3') mazeMat[width][height] = Tile(Tile::SPEEDUP);
                     if(numTile == '4') mazeMat[width][height] = Tile(Tile::MUD);
-                    if(numTile == '5') mazeMat[width][height] = Tile(Tile::TELEPORT);
-                    if(numTile == '6') mazeMat[width][height] = Tile(Tile::START), startX = width, startY = height;
-                    if(numTile == '7') mazeMat[width][height] = Tile(Tile::FINISH),  endX = width, endY = height;
+                    if(numTile == '5') mazeMat[width][height] = Tile(Tile::TELEPORT_1), tele1X = width, tele1Y = height;
+                    if(numTile == '6') mazeMat[width][height] = Tile(Tile::TELEPORT_2), tele2X = width, tele2Y = height;
+                    if(numTile == '7') mazeMat[width][height] = Tile(Tile::TELEPORT_3), tele3X = width, tele3Y = height;
+                    if(numTile == '8') mazeMat[width][height] = Tile(Tile::TELEPORT_4), tele4X = width, tele4Y = height;
+                    if(numTile == '9') mazeMat[width][height] = Tile(Tile::HIDDEN_LAVA);
+                    if(numTile == '!') mazeMat[width][height] = Tile(Tile::HIDDEN_WALL);
+                    if(numTile == 'K') mazeMat[width][height] = Tile(Tile::KEY), keyX = width, keyY = height;
+                    if(numTile == 'D') mazeMat[width][height] = Tile(Tile::DOOR), doorX = width, doorY = height;
+                    if(numTile == '@') mazeMat[width][height] = Tile(Tile::START), startX = width, startY = height;
+                    if(numTile == '*') mazeMat[width][height] = Tile(Tile::FINISH), endX = width, endY = height;
 
 
                     width++;
@@ -84,3 +91,26 @@ int Maze::playerStartY() {return startY;}
 
 int Maze::playerEndX() {return endX;}
 int Maze::playerEndY() {return endY;}
+
+int Maze::getTele1X() {return tele1X;}
+int Maze::getTele1Y() {return tele1Y;}
+int Maze::getTele2X() {return tele2X;}
+int Maze::getTele2Y() {return tele2Y;}
+
+int Maze::getTele3X() {return tele3X;}
+int Maze::getTele3Y() {return tele3Y;}
+int Maze::getTele4X() {return tele4X;}
+int Maze::getTele4Y() {return tele4Y;}
+
+int Maze::getKeyX() {return keyX;}
+int Maze::getKeyY() {return keyY;}
+int Maze::getDoorX() {return doorX;}
+int Maze::getDoorY() {return doorY;}
+
+void Maze::toLava(int x, int y) {
+        mazeMat[x][y] = Tile(Tile::LAVA);
+}
+void Maze::toWall(int x, int y) {
+        mazeMat[x][y] = Tile(Tile::WALL);
+    }
+
