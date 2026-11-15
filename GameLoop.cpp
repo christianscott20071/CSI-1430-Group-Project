@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Maze.h"
 #include "Tile.h"
+#include <cstdlib>
 using namespace std;
 
 
@@ -45,17 +46,16 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
     }
 
     //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
+    /*
     for(int i = 0; i < options.size(); i++){
         if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
             bestOption = options[i];
             distance = abs((options[i].x - player.getX())) + abs(options[i].y-player.getY());
         }
     }
+        */
     //now we set direction
-    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
-    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
-    if(bestOption.y < enemy.getY()) enemy.setDirection('n');
-    if(bestOption.y > enemy.getY()) enemy.setDirection('s');
+    
 
     //check if it is stuck
     if(options.empty()){
@@ -81,7 +81,12 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
         }
     }
 
-    if(!options.empty()){
+    //sometimes the enemy gets stuck, so sometimes, we will have it pick a random tile so it can get unstuck.
+
+    if(rand() %100 < 15){
+        bestOption = options[rand() %options.size()];
+    }else{
+        if(!options.empty()){
         for(int i = 0; i < options.size(); i++){
         if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
             bestOption = options[i];
@@ -89,6 +94,12 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
         }
     }
     }
+    }
+
+    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
+    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
+    if(bestOption.y < enemy.getY()) enemy.setDirection('n');
+    if(bestOption.y > enemy.getY()) enemy.setDirection('s');
 
     //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
