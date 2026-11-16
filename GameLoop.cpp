@@ -12,6 +12,7 @@
 using namespace std;
 
 
+bool hasKey; //global var
 struct MoveOption{
     int x;
     int y;
@@ -24,40 +25,24 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
 
     //check north
     if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight()) && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
-    && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
-     && enemy.getDirection()!='s'){
+    && (maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL || (maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::DOOR && !hasKey)) && enemy.getDirection()!='s'){
         options.push_back({enemy.getX(), enemy.getY()-1});
     }
     //check east
     if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
-     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'w'){
+     && (maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL || (maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::DOOR && !hasKey)) && enemy.getDirection()!= 'w'){
         options.push_back({enemy.getX()+1, enemy.getY()});
     }
     //check south
     if(enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight() && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
-     && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
-      && enemy.getDirection()!='n'){
+     && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL || (maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::DOOR && !hasKey) && enemy.getDirection()!='n'){
         options.push_back({enemy.getX(), enemy.getY()+1});
     }
     //check west
     if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
-     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'e'){
+     && (maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL) || (maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::DOOR && !hasKey) && enemy.getDirection()!= 'e'){
         options.push_back({enemy.getX()-1, enemy.getY()});
     }
-
-    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
-    /*
-    for(int i = 0; i < options.size(); i++){
-        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
-            bestOption = options[i];
-            distance = abs((options[i].x - player.getX())) + abs(options[i].y-player.getY());
-        }
-    }
-        */
-    //now we set direction
-
 
     //check if it is stuck
     if(options.empty()){
@@ -147,7 +132,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "brickWall.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 2){
-                //drawImage(p, path_to_lava_texture, xTracker, yTracker);
+                drawImage(p, "lollipopObstacle.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 3){
                 drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
@@ -162,7 +147,22 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 //drawImage(p, path_to_start_texture, xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 7){
-                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 8){
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 8){
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 10){
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 11){
+                drawImage(p, "key.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 12){
+                drawImage(p, "chocolateDorr.ppm", xTracker, yTracker);
             }
         xTracker+=30;
         }
@@ -175,7 +175,7 @@ void drawPlayer(SDL_Plotter& p, Player& play ){
     int x = play.getX() * 30;
     int y = play.getY() * 30;
     //Add logic to change texture based on player direction
-    drawImage(p, "playerTemp.ppm", x,y);
+    drawImage(p, "princessPlum.ppm", x,y);
 }
 void drawEnemy(SDL_Plotter& p, Enemy& en){
     int x = en.getX()*30;
@@ -207,7 +207,7 @@ int main (int argc, char ** argv) {
     bool skip = false;
     bool hasKey = false;
     bool isLocked = true;
-
+    int moveEnemy;
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
 
     //Title screen
@@ -311,7 +311,6 @@ int main (int argc, char ** argv) {
                             // This wll draw some visual which tells you that you've picked up the key and unlocked the door.
                             // It will be drawn on top of the screen at the end of the normal draw sequence.
                             break;
-
                             case 14:
                             level_complete = true;
                             break;
@@ -372,14 +371,15 @@ int main (int argc, char ** argv) {
 
         drawMaze(plot, maze);
         drawPlayer(plot, player);
-        updateEnemy(enemy, player, maze);
+        moveEnemy++;
+        if(rand()%4!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
             player.startOver();
         }
         plot.update();
 
-            plot.Sleep(30);
+            plot.Sleep(100);
 
         }
 
