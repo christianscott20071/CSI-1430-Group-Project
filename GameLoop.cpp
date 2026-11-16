@@ -1,3 +1,4 @@
+
 #include <cmath>
 #include <climits>
 #include <fstream>
@@ -262,111 +263,111 @@ int main (int argc, char ** argv) {
                         if (maze.getTile(newX + dx, newY + dy).getTileState() == 0) {
                             newY += dy;
                             newX += dx;
-                        break;
-                    case 4:
-                        //MUD
-                        skip = !skip;
-                        if (skip) {
-                            newY += -1 * dy;
-                            newX += -1 * dx;
+                            break;
+                            case 4:
+                            //MUD
+                            skip = !skip;
+                            if (skip) {
+                                newY += -1 * dy;
+                                newX += -1 * dx;
+                            }
+                            break;
+                            case 5:
+                            //TELEPORT_1
+                            newX = maze.getTele2X();
+                            newY = maze.getTele2Y();
+                            break;
+                            case 6:
+                            //TELEPORT_2
+                            newX = maze.getTele1X();
+                            newY = maze.getTele1Y();
+                            break;
+                            case 7:
+                            //TELEPORT_3
+                            newX = maze.getTele4X();
+                            newY = maze.getTele4Y();
+                            break;
+                            case 8:
+                            //TELEPORT_4
+                            newX = maze.getTele3X();
+                            newY = maze.getTele3Y();
+                            break;
+                            case 9:
+                            //HIDDEN_LAVA
+                            hiddenTile = true;
+                            isHiddenLava = true;
+                            break;
+                            case 10:
+                            //HIDDEN_WALL
+                            hiddenTile = true;
+                            isHiddenLava = false;
+                            break;
+                            case 11:
+                            hasKey = true;
+                            maze.setTile(Tile(Tile::PATH), newX, newY);
+                            maze.setTile(Tile(Tile::PATH), maze.getDoorX(), maze.getDoorY());
+                            //drawMaze.hasKey() = true;
+                            // This wll draw some visual which tells you that you've picked up the key and unlocked the door.
+                            // It will be drawn on top of the screen at the end of the normal draw sequence.
+                            break;
+
+                            case 14:
+                            level_complete = true;
+                            break;
+
+                            default:
+                            break;
                         }
-                        break;
-                    case 5:
-                        //TELEPORT_1
-                        newX = maze.getTele2X();
-                        newY = maze.getTele2Y();
-                        break;
-                    case 6:
-                        //TELEPORT_2
-                        newX = maze.getTele1X();
-                        newY = maze.getTele1Y();
-                        break;
-                    case 7:
-                        //TELEPORT_3
-                        newX = maze.getTele4X();
-                        newY = maze.getTele4Y();
-                        break;
-                    case 8:
-                        //TELEPORT_4
-                        newX = maze.getTele3X();
-                        newY = maze.getTele3Y();
-                        break;
-                    case 9:
-                        //HIDDEN_LAVA
-                        hiddenTile = true;
-                        isHiddenLava = true;
-                        break;
-                    case 10:
-                        //HIDDEN_WALL
-                        hiddenTile = true;
+
+                        if (isLava) {
+                            player.startOver();
+                        }
+                        else {
+                            player.updatePosition(newX, newY);
+                        }
+
+                        if (changeTile && (changeX != player.getX() || changeY != player.getY())) {
+                            if (changeToLava) {
+                                maze.setTile(Tile(Tile::LAVA), changeX, changeY);
+                            }
+                            else if (!changeToLava) {
+                                maze.setTile(Tile(Tile::WALL), changeX, changeY);
+                            }
+                            changeTile = false;
+                            changeToLava = false;
+                        }
+
+                        if (hiddenTile == true) {
+                            changeX = player.getX();
+                            changeY = player.getY();
+                            changeTile = true;
+                            if (isHiddenLava) changeToLava = true; else changeToLava = false;
+                        }
+                        hiddenTile = false;
                         isHiddenLava = false;
-                        break;
-                    case 11:
-                        hasKey = true;
-                        maze.setTile(Tile(Tile::PATH), newX, newY);
-                        maze.setTile(Tile(Tile::PATH), maze.getDoorX(), maze.getDoorY());
-                        //drawMaze.hasKey() = true;
-                        // This wll draw some visual which tells you that you've picked up the key and unlocked the door.
-                        // It will be drawn on top of the screen at the end of the normal draw sequence.
-                        break;
-
-                    case 14:
-                        level_complete = true;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (isLava) {
-                    player.startOver();
-                }
-                else {
-                    player.updatePosition(newX, newY);
-                }
-
-                if (changeTile && (changeX != player.getX() || changeY != player.getY())) {
-                    if (changeToLava) {
-                        maze.setTile(Tile(Tile::LAVA), changeX, changeY);
-                    }
-                    else if (!changeToLava) {
-                        maze.setTile(Tile(Tile::WALL), changeX, changeY);
-                    }
-                    changeTile = false;
-                    changeToLava = false;
-                }
-
-                if (hiddenTile == true) {
-                    changeX = player.getX();
-                    changeY = player.getY();
-                    changeTile = true;
-                    if (isHiddenLava) changeToLava = true; else changeToLava = false;
-                }
-                hiddenTile = false;
-                isHiddenLava = false;
 
 
-                if (level_complete) {
-                    // drawVictoryScreen(plot, level);
-                    level++;
-                    changeTile = false;
-                    skip = false;
+                        if (level_complete) {
+                            // drawVictoryScreen(plot, level);
+                            level++;
+                            changeTile = false;
+                            skip = false;
 
-                    if (level > 3) {
-                        // drawGameBeatScreen(plot);
-                        plot.setQuit(true);
-                    }
+                            if (level > 3) {
+                                // drawGameBeatScreen(plot);
+                                plot.setQuit(true);
+                            }
 
-                    else {
-                        maze.setMaze(level);
-                        player.updateStart(maze.playerStartX(), maze.playerStartY());
-                        player.updatePosition(maze.playerStartX(), maze.playerStartY());
-                    }
+                            else {
+                                maze.setMaze(level);
+                                player.updateStart(maze.playerStartX(), maze.playerStartY());
+                                player.updatePosition(maze.playerStartX(), maze.playerStartY());
+                            }
+                        }
                 }
             }
-        }
 
-        plot.clear();
+            plot.clear();
 
         drawMaze(plot, maze);
         drawPlayer(plot, player);
@@ -377,9 +378,9 @@ int main (int argc, char ** argv) {
         }
         plot.update();
 
-        plot.Sleep(30);
+            plot.Sleep(30);
 
+        }
+
+        return 0;
     }
-
-    return 0;
-}
