@@ -1,15 +1,191 @@
-
 #include <cmath>
 #include <climits>
+#include <fstream>
 #include "SDL_Plotter.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "Maze.h"
 #include "Tile.h"
+#include <cstdlib>
 #include <vector>
 using namespace std;
 
+
+struct MoveOption{
+    int x;
+    int y;
+};
+
+void updateEnemy(Enemy& enemy, Player player, Maze maze){
+    int distance = INT_MAX;
+    MoveOption bestOption;
+    vector<MoveOption> options;
+
+    //check north
+    if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight()) && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
+    && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
+     && enemy.getDirection()!='s'){
+        options.push_back({enemy.getX(), enemy.getY()-1});
+    }
+    //check east
+    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'w'){
+        options.push_back({enemy.getX()+1, enemy.getY()});
+    }
+    //check south
+    if(enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight() && (enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
+     && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
+      && enemy.getDirection()!='n'){
+        options.push_back({enemy.getX(), enemy.getY()+1});
+    }
+    //check west
+    if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth()) && (enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
+      && enemy.getDirection()!= 'e'){
+        options.push_back({enemy.getX()-1, enemy.getY()});
+    }
+
+    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
+    /*
+    for(int i = 0; i < options.size(); i++){
+        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
+            bestOption = options[i];
+            distance = abs((options[i].x - player.getX())) + abs(options[i].y-player.getY());
+        }
+    }
+        */
+    //now we set direction
+
+
+    //check if it is stuck
+    if(options.empty()){
+        //leave out direction restricting.
+            if((enemy.getY()-1 >=0 && enemy.getY() < maze.getHeight())
+        && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX(), enemy.getY()-1});
+        }
+        //check east
+        if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
+        && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX()+1, enemy.getY()});
+        }
+        //check south
+        if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
+        && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX(), enemy.getY()+1});
+        }
+        //check west
+        if((enemy.getX()-1 >=0 && enemy.getX() < maze.getWidth())
+        && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL){
+            options.push_back({enemy.getX()-1, enemy.getY()});
+        }
+    }
+
+    //sometimes the enemy gets stuck, so sometimes, we will have it pick a random tile so it can get unstuck.
+
+    if(rand() %100 < 15){
+        bestOption = options[rand() %options.size()];
+    }else{
+        if(!options.empty()){
+        for(int i = 0; i < options.size(); i++){
+        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
+            bestOption = options[i];
+            distance = abs((options[i].x - player.getX())) + abs(options[i].y-player.getY());
+        }
+    }
+    }
+    }
+
+    if(bestOption.x > enemy.getX()) enemy.setDirection('e');
+    if(bestOption.x < enemy.getX()) enemy.setDirection('w');
+    if(bestOption.y < enemy.getY()) enemy.setDirection('n');
+    if(bestOption.y > enemy.getY()) enemy.setDirection('s');
+
+    //aaaanndddd update position
+    enemy.updatePosition(bestOption.x, bestOption.y);
+
+
+
+}
+
+//we need a ppm file
+void drawImage(SDL_Plotter& p, string filename, int startX, int startY){
+    string filepath = "images/" + filename;
+    ifstream inFile;
+    string line;
+    int wid, height;
+    int currX = startX;
+    int currY = startY;
+    int r,g,b;
+    int maxVal;
+    inFile.open(filepath);
+    if(!inFile.is_open()){
+        cout << "File reading error" << filename;
+        return;
+    }
+    getline(inFile, line);
+    inFile >> wid >> height;
+    inFile >> maxVal;
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < wid; j++){
+            inFile >> r >> g >> b;
+            p.plotPixel(currX, currY, r, g, b);
+            currX++;
+        }
+        currY++;
+        currX = startX;
+    }
+}
+
+void drawMaze(SDL_Plotter& p, Maze m){
+    int xTracker = 0, yTracker = 0;
+    for(int i = 0; i < m.getHeight(); i++){
+        for (int j = 0; j < m.getWidth(); j++){
+            if(m.getTile(j,i).getTileState() == 1){
+                drawImage(p, "brickWall.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 2){
+                //drawImage(p, path_to_lava_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 3){
+                drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 4){
+                drawImage(p, "muddySwamp.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 5){
+                //drawImage(p, path_to_teleport_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 6){
+                //drawImage(p, path_to_start_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 7){
+                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+            }
+        xTracker+=30;
+        }
+        yTracker+=30;
+        xTracker = 0;
+    }
+
+}
+void drawPlayer(SDL_Plotter& p, Player& play ){
+    int x = play.getX() * 30;
+    int y = play.getY() * 30;
+    //Add logic to change texture based on player direction
+    drawImage(p, "playerTemp.ppm", x,y);
+}
+void drawEnemy(SDL_Plotter& p, Enemy& en){
+    int x = en.getX()*30;
+    int y = en.getY()*30;
+    drawImage(p, "kingcandy.ppm", x, y);
+}
+
+
+
 int main (int argc, char ** argv) {
+    bool onTitleScreen = true;
     int level = 1;
     Maze maze;
     maze.setMaze(level);
@@ -32,6 +208,18 @@ int main (int argc, char ** argv) {
     bool isLocked = true;
 
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
+
+    //Title screen
+
+        drawImage(plot, "candyTitleS.PPM", 0,0);
+        plot.update();
+
+        while(!plot.getQuit() && onTitleScreen){
+            if(plot.kbhit()) {
+                onTitleScreen = false;
+            }
+            plot.Sleep(30);
+        }
 
     while (!plot.getQuit()) {
         if (plot.kbhit()) {
@@ -180,9 +368,13 @@ int main (int argc, char ** argv) {
 
         plot.clear();
 
-        // drawMaze(plot, maze);
-        // drawPlayer(plot, player);
-
+        drawMaze(plot, maze);
+        drawPlayer(plot, player);
+        updateEnemy(enemy, player, maze);
+        drawEnemy(plot, enemy);
+        if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
+            player.startOver();
+        }
         plot.update();
 
         plot.Sleep(30);
@@ -191,52 +383,3 @@ int main (int argc, char ** argv) {
 
     return 0;
 }
-
-
-
-struct MoveOption{
-    int x;
-    int y;
-};
-
-void updateEnemy(Enemy& enemy, Player player, Maze maze){
-    int distance = INT_MAX;
-    MoveOption bestOption;
-    vector<MoveOption> options;
-
-    //check north
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
-    && maze.getTile(enemy.getX(), enemy.getY()+1).getTileState()!=Tile::WALL
-     && enemy.getDirection()!='s'){
-        options.push_back({enemy.getX(), enemy.getY()+1});
-    }
-    //check east
-    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
-     && maze.getTile(enemy.getX()+1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'w'){
-        options.push_back({enemy.getX()+1, enemy.getY()});
-    }
-    //check south
-    if((enemy.getY()+1 >=0 && enemy.getY() < maze.getHeight())
-     && maze.getTile(enemy.getX(), enemy.getY()-1).getTileState()!=Tile::WALL
-      && enemy.getDirection()!='n'){
-        options.push_back({enemy.getX(), enemy.getY()-1});
-    }
-    //check west
-    if((enemy.getX()+1 >=0 && enemy.getX() < maze.getWidth())
-     && maze.getTile(enemy.getX()-1, enemy.getY()).getTileState()!=Tile::WALL
-      && enemy.getDirection()!= 'e'){
-        options.push_back({enemy.getX()-1, enemy.getY()});
-    }
-
-    //so now we need to go through our valid tiles and whichever one has the shortest distance to the player, we save.
-    for(int i = 0; i < options.size(); i++){
-        if(abs((options[i].x - player.getX())) + abs(options[i].y-player.getY()) < distance){
-            bestOption = options[i];
-            distance = abs((enemy.getX() - player.getX())) + abs(enemy.getY()-player.getY());
-        }
-    }
-    //now we update position
-    enemy.updatePosition(bestOption.x, bestOption.y);
-}
-
