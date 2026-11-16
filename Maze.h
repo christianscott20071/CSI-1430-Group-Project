@@ -14,8 +14,8 @@ private:
     int height = 25;
     int width = 25;
     int tileSize = 30;
-    int startX = 0;
-    int startY = 0;
+    int startX = 1;
+    int startY = 1;
     int endX = 0;
     int endY = 0;
     int tele1X = 0;

@@ -264,6 +264,7 @@ int main (int argc, char ** argv) {
                             newY += dy;
                             newX += dx;
                             break;
+                            }
                             case 4:
                             //MUD
                             skip = !skip;
