@@ -201,7 +201,14 @@ void drawEnemy(SDL_Plotter& p, Enemy& en){
     drawImage(p, "kingcandy.ppm", x, y);
 }
 
+void drawHUD(SDL_Plotter& p, int coins, int hp){
+    static int hpX = 0;
+    static int hpY = 0;
+    static int coinsX = 0;
+    static int coinsY = 0;
+    
 
+}
 
 int main (int argc, char ** argv) {
     bool onTitleScreen = true;
@@ -226,7 +233,8 @@ int main (int argc, char ** argv) {
     bool hasKey = false;
     bool isLocked = true;
     int moveEnemy;
-
+    int numCoins = 0;
+    int health = 3;
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
 
     //Title screen
