@@ -392,13 +392,12 @@ int main (int argc, char ** argv) {
         drawMaze(plot, maze);
         drawPlayer(plot, player);
         moveEnemy++;
-        if(moveEnemy%3!=0) updateEnemy(enemy, player, maze);
+        if(moveEnemy%5!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
             player.startOver();
         }
         plot.update();
-
             plot.Sleep(50);
 
         }
