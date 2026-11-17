@@ -208,7 +208,7 @@ int main (int argc, char ** argv) {
     int level = 1;
     Maze maze;
     maze.setMaze(level);
-    SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
+    SDL_Plotter plot(maze.getHeight() * maze.getTileSize() + 50, maze.getWidth() * maze.getTileSize(), false);
     Player player(maze.playerStartX(), maze.playerStartY());
     Enemy enemy(maze.playerStartX(), maze.playerStartY()); //Enemy start pos will be at the start of the maze, enemy will spawn in like a second or two after player. 
     bool isLava = false;
@@ -217,7 +217,7 @@ int main (int argc, char ** argv) {
     int newX = 0;
     int newY = 0;
     int changeX = 0;
-    int changeY = 0;
+    int changeY = 0; 
     bool isHiddenLava = false;
     bool changeToLava = false;
     bool hiddenTile = false;
@@ -231,7 +231,7 @@ int main (int argc, char ** argv) {
 
     //Title screen
 
-        drawImage(plot, "candyTitleS.PPM", 0,0);
+        drawImage(plot, "titleCard_extended.PPM", 0,0);
         plot.update();
 
         while(!plot.getQuit() && onTitleScreen){
