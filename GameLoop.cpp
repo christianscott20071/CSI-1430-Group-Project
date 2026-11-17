@@ -174,13 +174,13 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "key.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 12){
-                drawImage(p, "chocolateDorr.ppm", xTracker, yTracker);
+                drawImage(p, "chocolateDoor.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 13){
                 //drawImage(p, path_to_finish_texture, xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 14){
-                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
             }
         xTracker+=30;
         }
@@ -193,7 +193,7 @@ void drawPlayer(SDL_Plotter& p, Player& play ){
     int x = play.getX() * 30;
     int y = play.getY() * 30;
     //Add logic to change texture based on player direction
-    drawImage(p, "playerTemp.ppm", x,y);
+    drawImage(p, "princessPlum.ppm", x,y);
 }
 void drawEnemy(SDL_Plotter& p, Enemy& en){
     int x = en.getX()*30;
@@ -225,6 +225,7 @@ int main (int argc, char ** argv) {
     bool skip = false;
     bool hasKey = false;
     bool isLocked = true;
+    int moveEnemy;
 
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
 
@@ -278,7 +279,7 @@ int main (int argc, char ** argv) {
                         break;
                     case 3:
                         //SPEED
-                        if (maze.getTile(newX + dx, newY + dy).getTileState() == 0) {
+                        if (maze.getTile(newX + dx, newY + dy).getTileState() == 0 || maze.getTile(newX + dx, newY + dy).getTileState() == 3) {
                             newY += dy;
                             newX += dx;
                             break;
@@ -390,14 +391,15 @@ int main (int argc, char ** argv) {
 
         drawMaze(plot, maze);
         drawPlayer(plot, player);
-        updateEnemy(enemy, player, maze);
+        moveEnemy++;
+        if(moveEnemy%3!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
             player.startOver();
         }
         plot.update();
 
-            plot.Sleep(30);
+            plot.Sleep(50);
 
         }
 
