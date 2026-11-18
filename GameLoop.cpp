@@ -202,12 +202,18 @@ void drawEnemy(SDL_Plotter& p, Enemy& en){
 }
 
 void drawHUD(SDL_Plotter& p, int coins, int hp){
-    static int hpX = 0;
-    static int hpY = 0;
-    static int coinsX = 0;
-    static int coinsY = 0;
+    int hpX = 20;
+    int coinsX = 400;
     
-
+    //draw health
+    for(int i =0; i < hp; i++){
+        drawImage(p, "heart.ppm", hpX, 760);
+        hpX+=40;
+    }
+    for(int i =0; i < coins; i++){
+        //drawImage(p, "coin.ppm", hpX, 760);
+        hpX+=50;
+    }
 }
 
 int main (int argc, char ** argv) {
@@ -402,7 +408,9 @@ int main (int argc, char ** argv) {
         moveEnemy++;
         if(moveEnemy%5!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
+        drawHUD(plot, numCoins, health);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
+            health--;
             player.startOver();
         }
         plot.update();
