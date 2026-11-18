@@ -355,6 +355,7 @@ int main (int argc, char ** argv) {
 
                         if (isLava) {
                             player.startOver();
+                            health--;
                         }
                         else {
                             player.updatePosition(newX, newY);
