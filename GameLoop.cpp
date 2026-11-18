@@ -387,7 +387,7 @@ int main (int argc, char ** argv) {
                             level++;
                             changeTile = false;
                             skip = false;
-
+                            enemy.updatePosition(1,1);
                             if (level > 3) {
                                 // drawGameBeatScreen(plot);
                                 plot.setQuit(true);
