@@ -105,9 +105,6 @@ void updateEnemy(Enemy& enemy, Player player, Maze maze){
 
     //aaaanndddd update position
     enemy.updatePosition(bestOption.x, bestOption.y);
-
-
-
 }
 
 //we need a ppm file
@@ -147,7 +144,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "brickWall.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 2){
-                //drawImage(p, path_to_lava_texture, xTracker, yTracker);
+                drawImage(p, "lollipopObstacle.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 3){
                 drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
@@ -156,13 +153,37 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "muddySwamp.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 5){
-                //drawImage(p, path_to_teleport_texture, xTracker, yTracker);
+                drawImage(p, "portalOrange.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 6){
-                //drawImage(p, path_to_start_texture, xTracker, yTracker);
+                drawImage(p, "portalOrange.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 7){
+                drawImage(p, "portalOrangeBlue.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 8){
+                drawImage(p, "portalOrangeBlue.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 9){
                 //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 10){
+                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 11){
+                drawImage(p, "key.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 12){
+                drawImage(p, "chocolateDoor.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 13){
+                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 14){
+                drawImage(p, "endTile.ppm", xTracker, yTracker);
+            }
+            if(m.getTile(j,i).getTileState() == 15){
+                drawImage(p, "playerTemp.ppm", xTracker, yTracker);
             }
         xTracker+=30;
         }
@@ -175,7 +196,7 @@ void drawPlayer(SDL_Plotter& p, Player& play ){
     int x = play.getX() * 30;
     int y = play.getY() * 30;
     //Add logic to change texture based on player direction
-    drawImage(p, "playerTemp.ppm", x,y);
+    drawImage(p, "princessPlum.ppm", x,y);
 }
 void drawEnemy(SDL_Plotter& p, Enemy& en){
     int x = en.getX()*30;
@@ -183,14 +204,27 @@ void drawEnemy(SDL_Plotter& p, Enemy& en){
     drawImage(p, "kingcandy.ppm", x, y);
 }
 
-
+void drawHUD(SDL_Plotter& p, int coins, int hp){
+    int hpX = 20;
+    int coinsX = 400;
+    
+    //draw health
+    for(int i =0; i < hp; i++){
+        drawImage(p, "heart.ppm", hpX, 760);
+        hpX+=40;
+    }
+    for(int i =0; i < coins; i++){
+        drawImage(p, "playerTemp.ppm", coinsX, 760);
+        coinsX+=50;
+    }
+}
 
 int main (int argc, char ** argv) {
     bool onTitleScreen = true;
     int level = 1;
     Maze maze;
     maze.setMaze(level);
-    SDL_Plotter plot(maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize(), false);
+    SDL_Plotter plot(maze.getHeight() * maze.getTileSize() + 50, maze.getWidth() * maze.getTileSize(), false);
     Player player(maze.playerStartX(), maze.playerStartY());
     Enemy enemy(maze.playerStartX(), maze.playerStartY()); //Enemy start pos will be at the start of the maze, enemy will spawn in like a second or two after player. 
     bool isLava = false;
@@ -199,7 +233,7 @@ int main (int argc, char ** argv) {
     int newX = 0;
     int newY = 0;
     int changeX = 0;
-    int changeY = 0;
+    int changeY = 0; 
     bool isHiddenLava = false;
     bool changeToLava = false;
     bool hiddenTile = false;
@@ -207,12 +241,14 @@ int main (int argc, char ** argv) {
     bool skip = false;
     bool hasKey = false;
     bool isLocked = true;
-
+    int moveEnemy;
+    int numCoins = 0;
+    int health = 3;
     cout << "Maze size:" << maze.getHeight() * maze.getTileSize(), maze.getWidth() * maze.getTileSize();
 
     //Title screen
 
-        drawImage(plot, "candyTitleS.PPM", 0,0);
+        drawImage(plot, "titleCard_extended.PPM", 0,0);
         plot.update();
 
         while(!plot.getQuit() && onTitleScreen){
@@ -260,7 +296,7 @@ int main (int argc, char ** argv) {
                         break;
                     case 3:
                         //SPEED
-                        if (maze.getTile(newX + dx, newY + dy).getTileState() == 0) {
+                        if (maze.getTile(newX + dx, newY + dy).getTileState() == 0 || maze.getTile(newX + dx, newY + dy).getTileState() == 3) {
                             newY += dy;
                             newX += dx;
                             break;
@@ -315,13 +351,16 @@ int main (int argc, char ** argv) {
                             case 14:
                             level_complete = true;
                             break;
-
+                            case 15:
+                            numCoins++;
+                            break;
                             default:
                             break;
                         }
 
                         if (isLava) {
                             player.startOver();
+                            health--;
                         }
                         else {
                             player.updatePosition(newX, newY);
@@ -353,7 +392,7 @@ int main (int argc, char ** argv) {
                             level++;
                             changeTile = false;
                             skip = false;
-
+                            enemy.updatePosition(1,1);
                             if (level > 3) {
                                 // drawGameBeatScreen(plot);
                                 plot.setQuit(true);
@@ -372,14 +411,16 @@ int main (int argc, char ** argv) {
 
         drawMaze(plot, maze);
         drawPlayer(plot, player);
-        updateEnemy(enemy, player, maze);
+        moveEnemy++;
+        if(moveEnemy%5!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
+        drawHUD(plot, numCoins, health);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
+            health--;
             player.startOver();
         }
         plot.update();
-
-            plot.Sleep(30);
+            plot.Sleep(50);
 
         }
 

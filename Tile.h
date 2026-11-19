@@ -19,7 +19,8 @@ class Tile{
         KEY,
         DOOR,
         START,
-        FINISH
+        FINISH,
+        COIN
     };
     Tile();
     Tile(TileType);
