@@ -75,7 +75,7 @@ using namespace std;
                     if(numTile == 'D') mazeMat[width][height] = Tile(Tile::DOOR), doorX = width, doorY = height;
                     if(numTile == '@') mazeMat[width][height] = Tile(Tile::START), startX = width, startY = height;
                     if(numTile == '*') mazeMat[width][height] = Tile(Tile::FINISH), endX = width, endY = height;
-
+                    if(numTile == 'C') mazeMat[width][height] = Tile(Tile::COIN);
 
                     width++;
                 }

@@ -182,6 +182,9 @@ void drawMaze(SDL_Plotter& p, Maze m){
             if(m.getTile(j,i).getTileState() == 14){
                 drawImage(p, "endTile.ppm", xTracker, yTracker);
             }
+            if(m.getTile(j,i).getTileState() == 15){
+                drawImage(p, "playerTemp.ppm", xTracker, yTracker);
+            }
         xTracker+=30;
         }
         yTracker+=30;
@@ -211,8 +214,8 @@ void drawHUD(SDL_Plotter& p, int coins, int hp){
         hpX+=40;
     }
     for(int i =0; i < coins; i++){
-        //drawImage(p, "coin.ppm", hpX, 760);
-        hpX+=50;
+        drawImage(p, "playerTemp.ppm", coinsX, 760);
+        coinsX+=50;
     }
 }
 
@@ -348,7 +351,9 @@ int main (int argc, char ** argv) {
                             case 14:
                             level_complete = true;
                             break;
-
+                            case 15:
+                            numCoins++;
+                            break;
                             default:
                             break;
                         }

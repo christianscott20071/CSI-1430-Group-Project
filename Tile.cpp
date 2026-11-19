@@ -22,6 +22,7 @@
         if (type == DOOR) state = 12;
         if(type == START) state = 13;
         if(type == FINISH) state = 14;
+        if(type == COIN) state = 15;
         return state;
     }
 
