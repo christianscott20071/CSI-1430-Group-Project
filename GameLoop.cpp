@@ -183,7 +183,7 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "endTile.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 15){
-                drawImage(p, "playerTemp.ppm", xTracker, yTracker);
+                drawImage(p, "coin.ppm", xTracker, yTracker);
             }
         xTracker+=30;
         }
@@ -214,7 +214,7 @@ void drawHUD(SDL_Plotter& p, int coins, int hp){
         hpX+=40;
     }
     for(int i =0; i < coins; i++){
-        drawImage(p, "playerTemp.ppm", coinsX, 760);
+        drawImage(p, "coin.ppm", coinsX, 760);
         coinsX+=50;
     }
 }
@@ -353,6 +353,7 @@ int main (int argc, char ** argv) {
                             break;
                             case 15:
                             numCoins++;
+                            maze.setTile(Tile(Tile::PATH), newX, newY);
                             break;
                             default:
                             break;
@@ -412,13 +413,14 @@ int main (int argc, char ** argv) {
         drawMaze(plot, maze);
         drawPlayer(plot, player);
         moveEnemy++;
-        if(moveEnemy%5!=0) updateEnemy(enemy, player, maze);
+        if(moveEnemy%(level*3)!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         drawHUD(plot, numCoins, health);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
             health--;
             player.startOver();
         }
+        if(health <= 0) plot.setQuit(true);
         plot.update();
             plot.Sleep(50);
 
