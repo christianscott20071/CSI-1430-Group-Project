@@ -69,13 +69,13 @@ using namespace std;
                     if(numTile == '6') mazeMat[width][height] = Tile(Tile::TELEPORT_2), tele2X = width, tele2Y = height;
                     if(numTile == '7') mazeMat[width][height] = Tile(Tile::TELEPORT_3), tele3X = width, tele3Y = height;
                     if(numTile == '8') mazeMat[width][height] = Tile(Tile::TELEPORT_4), tele4X = width, tele4Y = height;
-                    if(numTile == '9') mazeMat[width][height] = Tile(Tile::HIDDEN_LAVA);
-                    if(numTile == '!') mazeMat[width][height] = Tile(Tile::HIDDEN_WALL);
+                    if(numTile == '!') mazeMat[width][height] = Tile(Tile::HIDDEN_LAVA);
+                    if(numTile == '?') mazeMat[width][height] = Tile(Tile::HIDDEN_WALL);
                     if(numTile == 'K') mazeMat[width][height] = Tile(Tile::KEY), keyX = width, keyY = height;
                     if(numTile == 'D') mazeMat[width][height] = Tile(Tile::DOOR), doorX = width, doorY = height;
                     if(numTile == '@') mazeMat[width][height] = Tile(Tile::START), startX = width, startY = height;
                     if(numTile == '*') mazeMat[width][height] = Tile(Tile::FINISH), endX = width, endY = height;
-                    if(numTile == 'C') mazeMat[width][height] = Tile(Tile::COIN);
+                    if(numTile == 'C') mazeMat[width][height] = Tile(Tile::COIN), tokenX = width, tokenY = height;
 
                     width++;
                 }
@@ -107,6 +107,9 @@ int Maze::getKeyX() {return keyX;}
 int Maze::getKeyY() {return keyY;}
 int Maze::getDoorX() {return doorX;}
 int Maze::getDoorY() {return doorY;}
+
+int Maze::getTokenX() {return tokenX;}
+int Maze::getTokenY() {return tokenY;}
 
 void Maze::toLava(int x, int y) {
         mazeMat[x][y] = Tile(Tile::LAVA);

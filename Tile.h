@@ -18,6 +18,7 @@ class Tile{
         HIDDEN_WALL,
         KEY,
         DOOR,
+        TOKEN,
         START,
         FINISH,
         COIN

@@ -18,8 +18,8 @@
         if(type == TELEPORT_4) state = 8;
         if(type == HIDDEN_LAVA) state = 9;
         if(type == HIDDEN_WALL) state = 10;
-        if (type == KEY) state = 11;
-        if (type == DOOR) state = 12;
+        if(type == KEY) state = 11;
+        if(type == DOOR) state = 12;
         if(type == START) state = 13;
         if(type == FINISH) state = 14;
         if(type == COIN) state = 15;

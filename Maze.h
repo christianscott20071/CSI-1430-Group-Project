@@ -30,6 +30,8 @@ private:
     int keyY = 0;
     int doorX = 0;
     int doorY = 0;
+    int tokenX = 0;
+    int tokenY = 0;
 
 
     public:
@@ -50,6 +52,8 @@ private:
     int getKeyY();
     int getDoorX();
     int getDoorY();
+    int getTokenX();
+    int getTokenY();
     void clearMazeMat();
     int getTileSize();
     int getHeight();

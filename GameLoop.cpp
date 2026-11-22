@@ -207,7 +207,7 @@ void drawEnemy(SDL_Plotter& p, Enemy& en){
 void drawHUD(SDL_Plotter& p, int coins, int hp){
     int hpX = 20;
     int coinsX = 400;
-    
+
     //draw health
     for(int i =0; i < hp; i++){
         drawImage(p, "heart.ppm", hpX, 760);
@@ -233,7 +233,7 @@ int main (int argc, char ** argv) {
     int newX = 0;
     int newY = 0;
     int changeX = 0;
-    int changeY = 0; 
+    int changeY = 0;
     bool isHiddenLava = false;
     bool changeToLava = false;
     bool hiddenTile = false;
@@ -269,15 +269,19 @@ int main (int argc, char ** argv) {
 
             switch (key) {
                 case 'w':
+                case UP_ARROW:
                     dy = -1;
                     break;
                 case 's':
+                case DOWN_ARROW:
                     dy = 1;
                     break;
                 case 'a':
+                case LEFT_ARROW:
                     dx = -1;
                     break;
                 case 'd':
+                case RIGHT_ARROW:
                     dx = 1;
                     break;
             }
@@ -294,70 +298,78 @@ int main (int argc, char ** argv) {
                         //LAVA
                         isLava = true;
                         break;
+
                     case 3:
                         //SPEED
                         if (maze.getTile(newX + dx, newY + dy).getTileState() == 0 || maze.getTile(newX + dx, newY + dy).getTileState() == 3) {
                             newY += dy;
                             newX += dx;
-                            break;
-                            }
-                            case 4:
-                            //MUD
-                            skip = !skip;
-                            if (skip) {
-                                newY += -1 * dy;
-                                newX += -1 * dx;
-                            }
-                            break;
-                            case 5:
-                            //TELEPORT_1
-                            newX = maze.getTele2X();
-                            newY = maze.getTele2Y();
-                            break;
-                            case 6:
-                            //TELEPORT_2
-                            newX = maze.getTele1X();
-                            newY = maze.getTele1Y();
-                            break;
-                            case 7:
-                            //TELEPORT_3
-                            newX = maze.getTele4X();
-                            newY = maze.getTele4Y();
-                            break;
-                            case 8:
-                            //TELEPORT_4
-                            newX = maze.getTele3X();
-                            newY = maze.getTele3Y();
-                            break;
-                            case 9:
-                            //HIDDEN_LAVA
-                            hiddenTile = true;
-                            isHiddenLava = true;
-                            break;
-                            case 10:
-                            //HIDDEN_WALL
-                            hiddenTile = true;
-                            isHiddenLava = false;
-                            break;
-                            case 11:
-                            hasKey = true;
-                            maze.setTile(Tile(Tile::PATH), newX, newY);
-                            maze.setTile(Tile(Tile::PATH), maze.getDoorX(), maze.getDoorY());
-                            //drawMaze.hasKey() = true;
-                            // This wll draw some visual which tells you that you've picked up the key and unlocked the door.
-                            // It will be drawn on top of the screen at the end of the normal draw sequence.
-                            break;
-
-                            case 14:
-                            level_complete = true;
-                            break;
-                            case 15:
-                            numCoins++;
-                            maze.setTile(Tile(Tile::PATH), newX, newY);
-                            break;
-                            default:
-                            break;
                         }
+                        break;
+
+                    case 4:
+                        //MUD
+                        skip = !skip;
+                        if (skip) {
+                            newY += -1 * dy;
+                            newX += -1 * dx;
+                        }
+                        break;
+
+                    case 5:
+                        //TELEPORT_1
+                        newX = maze.getTele2X();
+                        newY = maze.getTele2Y();
+                        break;
+
+                    case 6:
+                        //TELEPORT_2
+                        newX = maze.getTele1X();
+                        newY = maze.getTele1Y();
+                        break;
+
+                    case 7:
+                        //TELEPORT_3
+                        newX = maze.getTele4X();
+                        newY = maze.getTele4Y();
+                        break;
+
+                    case 8:
+                        //TELEPORT_4
+                        newX = maze.getTele3X();
+                        newY = maze.getTele3Y();
+                        break;
+
+                    case 9:
+                        //HIDDEN_LAVA
+                        hiddenTile = true;
+                        isHiddenLava = true;
+                        break;
+
+                    case 10:
+                        //HIDDEN_WALL
+                        hiddenTile = true;
+                        isHiddenLava = false;
+                        break;
+
+                    case 11:
+                        hasKey = true;
+                        maze.setTile(Tile(Tile::PATH), newX, newY);
+                        maze.setTile(Tile(Tile::PATH), maze.getDoorX(), maze.getDoorY());
+                        //drawMaze.hasKey() = true;
+                        // This wll draw some visual which tells you that you've picked up the key and unlocked the door.
+                        // It will be drawn on top of the screen at the end of the normal draw sequence.
+                        break;
+
+                    case 14:
+                        level_complete = true;
+                        break;
+
+                    case 15:
+                        numCoins++;
+                        maze.setTile(Tile(Tile::PATH), newX, newY);
+                        break;
+                }
 
                         if (isLava) {
                             player.startOver();
@@ -403,6 +415,9 @@ int main (int argc, char ** argv) {
                                 maze.setMaze(level);
                                 player.updateStart(maze.playerStartX(), maze.playerStartY());
                                 player.updatePosition(maze.playerStartX(), maze.playerStartY());
+                                changeTile = false;
+                                skip = false;
+
                             }
                         }
                 }
@@ -422,7 +437,7 @@ int main (int argc, char ** argv) {
         }
         if(health <= 0) plot.setQuit(true);
         plot.update();
-            plot.Sleep(50);
+            plot.Sleep(10);
 
         }
 
