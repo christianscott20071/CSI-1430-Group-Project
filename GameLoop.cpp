@@ -413,7 +413,7 @@ int main (int argc, char ** argv) {
         drawMaze(plot, maze);
         drawPlayer(plot, player);
         moveEnemy++;
-        if(moveEnemy%(level*3)!=0) updateEnemy(enemy, player, maze);
+        if(moveEnemy%(level*2)!=0) updateEnemy(enemy, player, maze);
         drawEnemy(plot, enemy);
         drawHUD(plot, numCoins, health);
         if(player.getX() == enemy.getX() && player.getY() == enemy.getY()){
