@@ -144,7 +144,8 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "brickWall.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 2){
-                drawImage(p, "lollipopObstacle.ppm", xTracker, yTracker);
+                drawImage(p, "spikeCandy.ppm", xTracker, yTracker);
+                //drawImage(p, "spike_candy.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 3){
                 drawImage(p, "peppermintCandy.ppm", xTracker, yTracker);
@@ -153,10 +154,10 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "muddySwamp.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 5){
-                drawImage(p, "portalOrange.ppm", xTracker, yTracker);
+                drawImage(p, "portalBlue.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 6){
-                drawImage(p, "portalOrange.ppm", xTracker, yTracker);
+                drawImage(p, "portalBlue.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 7){
                 drawImage(p, "portalOrangeBlue.ppm", xTracker, yTracker);
@@ -165,10 +166,12 @@ void drawMaze(SDL_Plotter& p, Maze m){
                 drawImage(p, "portalOrangeBlue.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 9){
-                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+                drawImage(p, "hiddenSpikeCandy.ppm", xTracker, yTracker);
+                //drawImage(p, "hidden_lava.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 10){
-                //drawImage(p, path_to_finish_texture, xTracker, yTracker);
+                drawImage(p, "hiddenWall.ppm", xTracker, yTracker);
+                //drawImage(p, "hidden_wall.ppm", xTracker, yTracker);
             }
             if(m.getTile(j,i).getTileState() == 11){
                 drawImage(p, "key.ppm", xTracker, yTracker);
