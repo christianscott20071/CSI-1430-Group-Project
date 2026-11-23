@@ -401,13 +401,12 @@ int main (int argc, char ** argv) {
 
 
                         if (level_complete) {
-                            // drawVictoryScreen(plot, level);
+                            health = 3;
                             level++;
                             changeTile = false;
                             skip = false;
                             enemy.updatePosition(1,1);
                             if (level > 3) {
-                                // drawGameBeatScreen(plot);
                                 plot.setQuit(true);
                             }
 
@@ -415,9 +414,6 @@ int main (int argc, char ** argv) {
                                 maze.setMaze(level);
                                 player.updateStart(maze.playerStartX(), maze.playerStartY());
                                 player.updatePosition(maze.playerStartX(), maze.playerStartY());
-                                changeTile = false;
-                                skip = false;
-
                             }
                         }
                 }
